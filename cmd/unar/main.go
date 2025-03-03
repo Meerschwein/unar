@@ -8,7 +8,6 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/meerschwein/unar/internal/util"
 	"github.com/meerschwein/unar/pkg/archives"
 	"golang.org/x/exp/maps"
 )
@@ -55,7 +54,7 @@ func main() {
 		for suffix, fn := range archives.SuffixArchives {
 			if strings.HasSuffix(filename, suffix) {
 				archFsFn = fn
-				dstPath = util.CleanPath(filename, suffix)
+				dstPath = filepath.Base(strings.TrimSuffix(filename, suffix))
 				goto found
 			}
 		}
@@ -88,7 +87,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = util.CopyFS(dstPath, fs)
+	err = os.CopyFS(dstPath, fs)
 	if err != nil {
 		log.Fatal(err)
 	}
