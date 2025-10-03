@@ -3,19 +3,19 @@ package main
 import (
 	"flag"
 	"log"
+	"maps"
 	"os"
 	"path/filepath"
 	"slices"
 	"strings"
 
-	"github.com/meerschwein/unar/pkg/archives"
-	"golang.org/x/exp/maps"
+	"github.com/meerschwein/unar/internal/archives"
 )
 
 func init() {
-	log.SetFlags(0)
+	log.SetFlags(0) // no timestamp
 
-	fmts := maps.Keys(archives.FormatArchives)
+	fmts := slices.Collect(maps.Keys(archives.FormatArchives))
 	slices.Sort(fmts)
 	flag.StringVar(&format, "f", "", "archive format of the file\npossible values: "+strings.Join(fmts, ", "))
 
